@@ -1,5 +1,7 @@
 # buster-testbed-extension
 
+[![Build status](https://secure.travis-ci.org/ppi-ag/buster-testbed-extension.png?branch=master)](http://travis-ci.org/ppi-ag/buster-testbed-extension)
+
 This extension for [Buster.JS](busterjs.org) uses the
 [preConfigure](http://docs.busterjs.org/en/latest/developers/extensions/#hook-preConfigure)
 extension hook to dynamically add configuration groups at runtime.
