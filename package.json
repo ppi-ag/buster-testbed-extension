@@ -1,0 +1,33 @@
+{
+  "name": "buster-testbed-extension",
+  "version": "0.1.0",
+  "description": "Extension for Buster.JS to dynamically add configuration groups for found testbeds at runtime.",
+  "bugs": {
+    "url": "https://github.com/ppi-ag/buster-testbed-extension/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/ppi-ag/buster-testbed-extension/blob/master/LICENSE"
+   },
+  "author": {
+    "name": "Daniel Wittner",
+    "email": "Daniel.Wittner@ppi.de"
+  },
+  "main": "lib/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ppi-ag/buster-testbed-extension.git"
+  },
+  "scripts": {
+    "test": "buster-test"
+  },
+  "dependencies": {
+    "glob": "*",
+    "lodash": "*"
+  },
+  "devDependencies": {
+    "buster": "*",
+    "mkdirp": "*",
+    "rimraf": "*"
+  }
+}
