@@ -193,6 +193,10 @@ config["test/testbeds/gen/time/structure/timeStructure.html"] = {
 
 ##Changelog
 
+**0.1.2** (25.09.2014)
+
+* Behavior of [simple mode](https://github.com/ppi-ag/buster-testbed-extension#simple-mode) changed
+
 **0.1.1** (24.09.2014)
 
 * [RegExp mode](https://github.com/ppi-ag/buster-testbed-extension#regexp-mode) added

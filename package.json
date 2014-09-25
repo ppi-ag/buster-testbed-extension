@@ -1,6 +1,6 @@
 {
   "name": "buster-testbed-extension",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Extension for Buster.JS to dynamically add configuration groups for found testbeds at runtime.",
   "bugs": {
     "url": "https://github.com/ppi-ag/buster-testbed-extension/issues"
