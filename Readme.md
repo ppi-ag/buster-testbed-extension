@@ -53,81 +53,13 @@ Information about how to modify the testbed path to get the path for the JavaScr
 
 The glob pattern for selecting the JavaScript test files is build by:
 
-* starting with the value specified by the [`tests`](#tests) parameter of the extension
-* adding the subdirectories of the current testbed
-* adding the name of the testbed file with the new extension `js` and an additional asterisk,
+* Take the path of the testbed including the file name.
+* Replace the first part of the path with the path specified by the [`tests`](#tests) parameter of the extension.
+  The number of subdirectories which are replaced, complies to the number of subdirectories of the path in the
+  [`tests`](#tests) parameter.  
+* Change the extension of the file to `js` and add an additional asterisk,
   to allow to have more than one JavaScript test file per testbed.
 
-Adding the subdirectories of the testbed means, that the very first part of the
-path is omitted. 
-
-#### Example
-
-Directory structure:
-```
-├── testbed/
-│   ├── timeStructure.html
-│   ├── time/
-│       ├── structure/
-│           ├── timeStructure.html
-├── test/
-│   ├── timeStructure-test.js
-│   ├── timeStructure-test2.js
-│   ├── time/
-│       ├── structure/
-│           ├── timeStructure-test.js
-│           ├── timeStructure-test2.js
-├── buster.js
-```
-
-buster.js:
-```JavaScript
-var config = module.exports;
-
-config["base"] = {
-    environment: "browser",
-	extensions: [require("buster-testbed-extension")],
-	"buster-testbed-extension": {
-		testbeds: ["testbed/**/*.html"],
-		tests: "test/"
-	}
-};
-```
-
-Resulting configuration at runtime:
-```JavaScript
-var config = module.exports;
-
-config["base"] = {
-    environment: "browser",
-	extensions: [require("buster-testbed-extension")],
-	"buster-testbed-extension": {
-		testbeds: ["testbed/**/*.html"],
-		tests: "test/"
-	}
-};
-
-config["testbed/timeStructure.html"] = {
-    extends: "base",
-    testbed: "testbed/timeStructure.html",
-    tests: ["test/timeStructure*.js"]
-};
-
-config["testbed/time/structure/timeStructure.html"] = {
-    extends: "base",
-    testbed: "testbed/time/structure/timeStructure.html",
-    tests: ["test/time/structure/timeStructure*.js"]
-};
-```
-
-### RegExp mode
-
-In this mode the [`tests`](#tests) parameter of the extension is an array of length 2,
-with first element of type `RegExp` and second element a `string` literal.
-
-These elements are used as params for the `string.replace` method,
-which is used to transform the path of a testbed to get the path
-to the corresponding JavaScript test files.
 
 #### Example
 
@@ -158,7 +90,7 @@ config["base"] = {
 	extensions: [require("buster-testbed-extension")],
 	"buster-testbed-extension": {
 		testbeds: ["test/gen/**/*.html"],
-		tests: [/^test\/gen/, "test/spec"]
+		tests: ["test/spec"]
 	}
 };
 ```
@@ -172,7 +104,7 @@ config["base"] = {
 	extensions: [require("buster-testbed-extension")],
 	"buster-testbed-extension": {
 		testbeds: ["test/gen/**/*.html"],
-		tests: [/^test\/gen/, "test/spec"]
+		tests: ["test/spec"]
 	}
 };
 
@@ -185,6 +117,76 @@ config["test/gen/timeStructure.html"] = {
 config["test/gen/time/structure/timeStructure.html"] = {
     extends: "base",
     testbed: "test/gen/time/structure/timeStructure.html",
+    tests: ["test/spec/time/structure/timeStructure*.js"]
+};
+```
+
+### RegExp mode
+
+In this mode the [`tests`](#tests) parameter of the extension is an array of length 2,
+with first element of type `RegExp` and second element a `string` literal.
+
+These elements are used as params for the `string.replace` method,
+which is used to transform the path of a testbed to get the path
+to the corresponding JavaScript test files.
+
+#### Example
+
+Directory structure:
+```
+├── test/
+│   ├── testbeds/
+│   │   ├── gen/
+│   │       ├── timeStructure.html
+│   │       ├── time/
+│   │           ├── structure/
+│   │               ├── timeStructure.html
+│   ├── spec/
+│       ├── timeStructure-test.js
+│       ├── timeStructure-test2.js
+│       ├── time/
+│           ├── structure/
+│               ├── timeStructure-test.js
+│               ├── timeStructure-test2.js
+├── buster.js
+```
+
+buster.js:
+```JavaScript
+var config = module.exports;
+
+config["base"] = {
+    environment: "browser",
+	extensions: [require("buster-testbed-extension")],
+	"buster-testbed-extension": {
+		testbeds: ["test/gen/**/*.html"],
+		tests: [/^test\/testbeds\/gen/, "test/spec"]
+	}
+};
+```
+
+Resulting configuration at runtime:
+```JavaScript
+var config = module.exports;
+
+config["base"] = {
+    environment: "browser",
+	extensions: [require("buster-testbed-extension")],
+	"buster-testbed-extension": {
+		testbeds: ["test/gen/**/*.html"],
+		tests: [/^test\/testbeds\/gen/, "test/spec"]
+	}
+};
+
+config["test/testbeds/gen/timeStructure.html"] = {
+    extends: "base",
+    testbed: "test/testbeds/gen/timeStructure.html",
+    tests: ["test/spec/timeStructure*.js"]
+};
+
+config["test/testbeds/gen/time/structure/timeStructure.html"] = {
+    extends: "base",
+    testbed: "test/testbeds/gen/time/structure/timeStructure.html",
     tests: ["test/spec/time/structure/timeStructure*.js"]
 };
 ```

@@ -76,7 +76,7 @@ buster.testCase("buster-testbed-extension", {
         );
     },
 
-    "uses testbed as testbed": function () {
+    "uses path of found testbed for testbed property": function () {
 
         testHelper.writeFile("testbed/time/structure/timeStructure.html");
         this.testee = testee.create({
@@ -94,98 +94,151 @@ buster.testCase("buster-testbed-extension", {
         );
     },
 
-    "uses subfolder of testbed as subfolder for js test files": function () {
+    "simple mode: creates path for JS test files for 'tests' path": {
 
-        testHelper.writeFile("testbed/time/structure/timeStructure.html");
-        this.testee = testee.create({
-            testbeds: ["testbed/**/*.html"],
-            tests: "test/"
-        });
+        "with one subfolder": function () {
 
-        this.testee.preConfigure(this.group, this.config);
+            testHelper.writeFile("testbed/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["testbed/**/*.html"],
+                tests: "test/"
+            });
 
-        assert.calledWith(
-            this.config.addGroup,
-            match.any,
-            match({
-                tests: ["test/time/structure/timeStructure*.js"]
-            })
-        );
-    },
-
-    "uses regular expressions to build path for js test files": function () {
-
-        testHelper.writeFile("test/gen/time/structure/timeStructure.html");
-        this.testee = testee.create({
-            testbeds: ["test/gen/**/*.html"],
-            tests: [/^test\/gen/, "test/spec"]
-        });
-
-        this.testee.preConfigure(this.group, this.config);
-
-        assert.calledWith(
-            this.config.addGroup,
-            match.any,
-            match({
-                tests: ["test/spec/time/structure/timeStructure*.js"]
-            })
-        );
-    },
-
-    "throw Error if length of tests array < 2": function () {
-
-        testHelper.writeFile("test/gen/time/structure/timeStructure.html");
-        this.testee = testee.create({
-            testbeds: ["test/gen/**/*.html"],
-            tests: [/^test\/gen/]
-        });
-
-        assert.exception(function () {
             this.testee.preConfigure(this.group, this.config);
-        }.bind(this), { name: "TypeError", message: "RegExp mode: length" });
+
+            assert.calledWith(
+                this.config.addGroup,
+                match.any,
+                match({
+                    tests: ["test/time/structure/timeStructure*.js"]
+                })
+            );
+        },
+
+        "with two subfolders": function () {
+
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: "test/spec/"
+            });
+
+            this.testee.preConfigure(this.group, this.config);
+
+            assert.calledWith(
+                this.config.addGroup,
+                match.any,
+                match({
+                    tests: ["test/spec/time/structure/timeStructure*.js"]
+                })
+            );
+        },
+
+        "not ending with /": function () {
+
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: "test/spec"
+            });
+
+            this.testee.preConfigure(this.group, this.config);
+
+            assert.calledWith(
+                this.config.addGroup,
+                match.any,
+                match({
+                    tests: ["test/spec/time/structure/timeStructure*.js"]
+                })
+            );
+        }
 
     },
 
-    "throw Error if length of tests array > 2": function () {
+    "regexp mode:": {
 
-        testHelper.writeFile("test/gen/time/structure/timeStructure.html");
-        this.testee = testee.create({
-            testbeds: ["test/gen/**/*.html"],
-            tests: [/^test\/gen/, "test/spec", "test/spec"]
-        });
+        "creates path for JS test files": function () {
 
-        assert.exception(function () {
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: [/^test\/gen/, "test/spec"]
+            });
+
             this.testee.preConfigure(this.group, this.config);
-        }.bind(this), { name: "TypeError", message: "RegExp mode: length" });
 
-    },
+            assert.calledWith(
+                this.config.addGroup,
+                match.any,
+                match({
+                    tests: ["test/spec/time/structure/timeStructure*.js"]
+                })
+            );
+        },
 
-    "throw Error if first element is not regexp": function () {
+        "throw Error if length of tests array < 2": function () {
 
-        testHelper.writeFile("test/gen/time/structure/timeStructure.html");
-        this.testee = testee.create({
-            testbeds: ["test/gen/**/*.html"],
-            tests: ["test/spec", "test/spec"]
-        });
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: [/^test\/gen/]
+            });
 
-        assert.exception(function () {
-            this.testee.preConfigure(this.group, this.config);
-        }.bind(this), { name: "TypeError", message: "RegExp mode: first" });
+            assert.exception(
+                function () {
+                    this.testee.preConfigure(this.group, this.config);
+                }.bind(this),
+                { name: "TypeError", message: "RegExp mode: length" }
+            );
+        },
 
-    },
+        "throw Error if length of tests array > 2": function () {
 
-    "throw Error if second element is not string": function () {
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: [/^test\/gen/, "test/spec", "test/spec"]
+            });
 
-        testHelper.writeFile("test/gen/time/structure/timeStructure.html");
-        this.testee = testee.create({
-            testbeds: ["test/gen/**/*.html"],
-            tests: [/^test\/gen/, /^test\/gen/]
-        });
+            assert.exception(
+                function () {
+                    this.testee.preConfigure(this.group, this.config);
+                }.bind(this),
+                { name: "TypeError", message: "RegExp mode: length" }
+            );
+        },
 
-        assert.exception(function () {
-            this.testee.preConfigure(this.group, this.config);
-        }.bind(this), { name: "TypeError", message: "RegExp mode: second" });
+        "throw Error if first element is not regexp": function () {
 
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: ["test/spec", "test/spec"]
+            });
+
+            assert.exception(
+                function () {
+                    this.testee.preConfigure(this.group, this.config);
+                }.bind(this),
+                { name: "TypeError", message: "RegExp mode: first" }
+            );
+        },
+
+        "throw Error if second element is not string": function () {
+
+            testHelper.writeFile("test/gen/time/structure/timeStructure.html");
+            this.testee = testee.create({
+                testbeds: ["test/gen/**/*.html"],
+                tests: [/^test\/gen/, /^test\/gen/]
+            });
+
+            assert.exception(
+                function () {
+                    this.testee.preConfigure(this.group, this.config);
+                }.bind(this),
+                { name: "TypeError", message: "RegExp mode: second" }
+            );
+        }
     },
 
     "sets source property for added group": function () {
