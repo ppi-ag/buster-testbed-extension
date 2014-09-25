@@ -190,3 +190,9 @@ config["test/testbeds/gen/time/structure/timeStructure.html"] = {
     tests: ["test/spec/time/structure/timeStructure*.js"]
 };
 ```
+
+##Changelog
+
+**0.1.1** (24.09.2014)
+
+* [RegExp mode](https://github.com/ppi-ag/buster-testbed-extension#regexp-mode) added
