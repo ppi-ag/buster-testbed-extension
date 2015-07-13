@@ -46,7 +46,7 @@ Directory from which to start with the selection of the JavaScript test files.
 
 **[RegExp mode](#regexp-mode):**
 
-Information about how to modify the testbed path to get the path for the JavaScript test files. 
+Information about how to modify the testbed path to get the path for the JavaScript test files.
 
 
 ### Simple mode
@@ -56,7 +56,7 @@ The glob pattern for selecting the JavaScript test files is build by:
 * Take the path of the testbed including the file name.
 * Replace the first part of the path with the path specified by the [`tests`](#tests) parameter of the extension.
   The number of subdirectories which are replaced, complies to the number of subdirectories of the path in the
-  [`tests`](#tests) parameter.  
+  [`tests`](#tests) parameter.
 * Change the extension of the file to `js` and add an additional asterisk,
   to allow to have more than one JavaScript test file per testbed.
 
@@ -159,7 +159,7 @@ config["base"] = {
     environment: "browser",
 	extensions: [require("buster-testbed-extension")],
 	"buster-testbed-extension": {
-		testbeds: ["test/gen/**/*.html"],
+		testbeds: ["test/testbeds/gen/**/*.html"],
 		tests: [/^test\/testbeds\/gen/, "test/spec"]
 	}
 };
@@ -173,7 +173,7 @@ config["base"] = {
     environment: "browser",
 	extensions: [require("buster-testbed-extension")],
 	"buster-testbed-extension": {
-		testbeds: ["test/gen/**/*.html"],
+		testbeds: ["test/testbeds/gen/**/*.html"],
 		tests: [/^test\/testbeds\/gen/, "test/spec"]
 	}
 };
