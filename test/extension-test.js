@@ -43,6 +43,22 @@ buster.testCase("buster-testbed-extension", {
         assert.calledTwice(this.config.addGroup);
     },
 
+    "adds groups only for testbeds with existing js test files if strict option is false": function () {
+
+        testHelper.writeFile("testbed/timeStructure.html");
+        testHelper.writeFile("testbed/time/structure/timeStructure.html");
+        testHelper.writeFile("test/timeStructure.js");
+        this.testee = testee.create({
+            testbeds: ["testbed/**/*.html"],
+            tests: "test/",
+            strict: false
+        });
+
+        this.testee.preConfigure(this.group, this.config);
+
+        assert.calledOnce(this.config.addGroup);
+    },
+
     "uses path of testbed as group name": function () {
 
         testHelper.writeFile("testbed/time/structure/timeStructure.html");
@@ -176,7 +192,7 @@ buster.testCase("buster-testbed-extension", {
             );
         },
 
-        "throw Error if length of tests array < 2": function () {
+        "throws Error if length of tests array < 2": function () {
 
             testHelper.writeFile("test/gen/time/structure/timeStructure.html");
             this.testee = testee.create({
@@ -192,7 +208,7 @@ buster.testCase("buster-testbed-extension", {
             );
         },
 
-        "throw Error if length of tests array > 2": function () {
+        "throws Error if length of tests array > 2": function () {
 
             testHelper.writeFile("test/gen/time/structure/timeStructure.html");
             this.testee = testee.create({
@@ -208,7 +224,7 @@ buster.testCase("buster-testbed-extension", {
             );
         },
 
-        "throw Error if first element is not regexp": function () {
+        "throws Error if first element is not regexp": function () {
 
             testHelper.writeFile("test/gen/time/structure/timeStructure.html");
             this.testee = testee.create({
@@ -224,7 +240,7 @@ buster.testCase("buster-testbed-extension", {
             );
         },
 
-        "throw Error if second element is not string": function () {
+        "throws Error if second element is not string": function () {
 
             testHelper.writeFile("test/gen/time/structure/timeStructure.html");
             this.testee = testee.create({
