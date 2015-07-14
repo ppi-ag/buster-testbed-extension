@@ -202,7 +202,7 @@ config["test/testbeds/gen/time/structure/timeStructure.html"] = {
 
 **0.1.3** (14.07.2015)
 
-* Option [strict: false](https://github.com/ppi-ag/buster-testbed-extension#strict:-false) added
+* Option [strict: false](https://github.com/ppi-ag/buster-testbed-extension#strict-false) added
 
 **0.1.2** (25.09.2014)
 
