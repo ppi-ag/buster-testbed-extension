@@ -48,6 +48,13 @@ Directory from which to start with the selection of the JavaScript test files.
 
 Information about how to modify the testbed path to get the path for the JavaScript test files.
 
+### `strict: false`
+
+By default the extension adds a configuration group for every found testbed. If Buster.JS can't find
+any javascript test file for a testbed afterwards, it will report that as an error. Specifying the option
+`strict: false` instructs the extension, only to add a configuration group for a testbed, if at least
+one corresponding javascript test file exists for it.
+
 
 ### Simple mode
 
@@ -192,6 +199,10 @@ config["test/testbeds/gen/time/structure/timeStructure.html"] = {
 ```
 
 ##Changelog
+
+**0.1.3** (14.07.2015)
+
+* Option [strict: false](https://github.com/ppi-ag/buster-testbed-extension#strict:-false) added
 
 **0.1.2** (25.09.2014)
 
